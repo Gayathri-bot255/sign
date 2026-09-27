@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        .container {
+            width: 350px;
+            margin: 50px auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #222;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin: 0 0 18px 0;
+        }
+
+        .success {
+            color: green;
+            font-size: 14px;
+            margin: 0 0 18px 0;
+        }
+
+        button {
+            width: 150px;
+            padding: 7px;
+            background-color: white;
+            border: 1px solid #222;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <form id="signupForm">
+
+            <label for="email">Email</label>
+            <input
+                type="text"
+                id="email"
+                placeholder="Example@email.com"
+                onchange="validateEmail()"
+            >
+
+            <p id="emailError" class="error"></p>
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Your Password"
+                onchange="validatePassword()"
+            >
+
+            <p id="passwordError" class="error"></p>
+
+            <p id="successMessage" class="success"></p>
+
+            <button type="submit">Submit</button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        function validateEmail() {
+            let email = document.getElementById("email").value;
+            let emailError = document.getElementById("emailError");
+
+            if (
+                email.length > 3 &&
+                email.includes("@") &&
+                email.includes(".")
+            ) {
+                emailError.innerText = "";
+            } else {
+                emailError.innerText =
+                    "Make sure email is more than 3 characters and has @ and a .";
+            }
+
+            checkAllValid();
+        }
+
+
+        function validatePassword() {
+            let password = document.getElementById("password").value;
+            let passwordError = document.getElementById("passwordError");
+
+            if (password.length > 8) {
+                passwordError.innerText = "";
+            } else {
+                passwordError.innerText =
+                    "Make sure password is more than 8 characters.";
+            }
+
+            checkAllValid();
+        }
+
+
+        function checkAllValid() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            let successMessage = document.getElementById("successMessage");
+
+            let validEmail =
+                email.length > 3 &&
+                email.includes("@") &&
+                email.includes(".");
+
+            let validPassword = password.length > 8;
+
+            if (validEmail && validPassword) {
+                successMessage.innerText = "All good to go!";
+            } else {
+                successMessage.innerText = "";
+            }
+        }
+
+
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            let validEmail =
+                email.length > 3 &&
+                email.includes("@") &&
+                email.includes(".");
+
+            let validPassword = password.length > 8;
+
+            if (!validEmail || !validPassword) {
+                validateEmail();
+                validatePassword();
+                return;
+            }
+
+            let confirmation = confirm("Do you want to submit the form?");
+
+            if (confirmation) {
+                alert("Successful signup!");
+            } else {
+                document.getElementById("email").value = "";
+                document.getElementById("password").value = "";
+
+                window.location.href = window.location.href;
+            }
+        });
+
+    </script>
+
+</body>
+</html>
